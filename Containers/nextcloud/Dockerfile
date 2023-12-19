@@ -89,6 +89,11 @@ RUN set -ex; \
     apk add --no-cache --virtual .nextcloud-phpext-rundeps $runDeps; \
     apk del .build-deps; \
     \
+    apk add --update linux-headers; \
+    apk add --no-cache $PHPIZE_DEPS; \
+    pecl install xdebug; \
+    docker-php-ext-enable xdebug; \
+    \
 # set recommended PHP.ini settings
 # see https://docs.nextcloud.com/server/stable/admin_manual/configuration_server/server_tuning.html#enable-php-opcache
     { \
@@ -108,6 +113,12 @@ RUN set -ex; \
         echo 'post_max_size=${PHP_UPLOAD_LIMIT}'; \
         echo 'max_execution_time=${PHP_MAX_TIME}'; \
         echo 'max_input_time=${PHP_MAX_TIME}'; \
+        echo zend_extension=$(find /usr/local -name xdebug.so); \
+        echo 'xdebug.mode=debug'; \
+        echo 'xdebug.remote_port=9003'; \
+        echo 'xdebug.remote_enable=1'; \
+        echo 'xdebug.start_with_request=yes'; \
+        echo 'xdebug.remote_connect_back=1'; \
     } > /usr/local/etc/php/conf.d/nextcloud.ini; \
     \
     mkdir -p /var/www/data; \

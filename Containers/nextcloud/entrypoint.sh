@@ -773,3 +773,8 @@ fi
 
 # Remove the update skip file always
 rm -f "$NEXTCLOUD_DATA_DIR"/skip.update
+
+
+# Enable debug mode
+echo "Enabling debug mode"
+php /var/www/html/occ config:system:set debug --value=true --type=bool
