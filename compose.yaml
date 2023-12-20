@@ -1,6 +1,6 @@
 services:
   nextcloud-aio-mastercontainer:
-    image: theclayton/nextcloud-aio-remote-debugging:latest
+    image: nextcloud/all-in-one:latest
     init: true
     restart: always
     container_name: nextcloud-aio-mastercontainer # This line is not allowed to be changed as otherwise AIO will not work correctly
